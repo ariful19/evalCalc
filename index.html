@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container {
+            display: grid;
+            height: 95vh;
+            grid-template-areas: 'btns''txt''txt''txt''txt''res';
+        }
+
+        .container>textarea {
+            grid-area: txt;
+        }
+
+        .container>.res {
+            grid-area: res;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .btns {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="btns">
+            <button onclick="forCick('for(i=0;i<10;i++)\n{    \n\n}')">for</button>
+            <button onclick="forCick('while(true)\n{    \n\n}')">while</button>
+            <button onclick="forCick('if(true)\n{    \n\n}')">if</button>
+            <button onclick="forCick('function fun(p1)\n{    \n\n}')">function</button>
+            <button onclick="location.reload()">reset</button>
+        </div>
+        <textarea oninput="TxtInp()" id='inp' onkeydown="txtKeyInp()"></textarea>
+        <div class="res"></div>
+    </div>
+    <script>
+        let inp = document.getElementById('inp');
+        let res = document.querySelector('.res');
+        function TxtInp() {
+            res.innerHTML = JSON.stringify(eval(`${inp.value}`));
+        }
+        function forCick(str) {
+            var s = inp.selectionStart;
+            inp.value = inp.value.substring(0, inp.selectionStart) + str + inp.value.substring(inp.selectionEnd);
+            inp.selectionEnd = s;
+        }
+        function txtKeyInp() {
+            let e = event;
+            if (e.keyCode == 9 || e.which == 9) {
+                e.preventDefault();
+                var s = inp.selectionStart;
+                inp.value = inp.value.substring(0, inp.selectionStart) + "    " + inp.value.substring(inp.selectionEnd);
+                inp.selectionEnd = s + 4;
+            }
+        }
+    </script>
+</body>
+
+</html>
